@@ -90,4 +90,13 @@ python ask.py --compare --translation KJV,NIV,NKJV \
 | `src/csv_ingest.py` | CSV → `Document` list |
 | `src/llamaindex_app.py` | LlamaIndex + Milvus filters + prompts |
 
+
+Use llama.cpp
+
+  823  podman run -d   --name llama-server-embedding   --network host   --device /dev/dri   --group-add keep-groups   --security-opt label=disable   -v ~/models:/models:Z   llama-vulkan-fixed   -m /models/Qwen3-Embedding-0.6B-Q8_0.gguf    -ngl 99 -fa 1 -c 16384   --host 0.0.0.0 --port 8081 --embedding --pooling last
+  840  podman run -d   --name llama-server   --network host   --device /dev/dri   --group-add keep-groups   --security-opt label=disable   -v ~/models:/models:Z   llama-vulkan-fixed   -m /models/Qwen3-14B-Q4_K_M.gguf   -ngl 99 -fa 1 -c 16384   --host 0.0.0.0 --port 8080   --embeddings --pooling mean
+
+Use the embedding model for importing milvis bible
+use the the regular qeb3-14b for the real AI stuff language
+
 Stack: **LlamaIndex** → llama.cpp (chat + embeddings) + **Milvus**.
